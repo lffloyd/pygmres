@@ -12,7 +12,7 @@ class CSRMatrix():
         ou tres conjuntos com valores, colunas e indices ja no formato CSR.
         '''
         if from_csr != True:
-            self.__parse_to_csr(matrix)
+            self.__to_csr(matrix)
             return
 
         self.values_array = np.array(matrix[0])
@@ -22,7 +22,7 @@ class CSRMatrix():
     def __str__(self):
         return f'\nValues: {self.values_array}\nColumns: {self.columns_array}\nIndexes: {self.index_array}\n'
 
-    def __parse_to_csr(self, matrix):
+    def __to_csr(self, matrix):
         '''
         Cria a representacao CSR a partir de uma matriz completa no formato:
           2 4 5
@@ -46,6 +46,32 @@ class CSRMatrix():
         self.values_array = np.array(self.values_array)
         self.columns_array = np.array(self.columns_array)
         self.index_array = np.array(self.index_array)
+    
+    def to_dense(self):
+      '''
+      Retorna uma representacao densa (completa) da matriz CSR.
+
+      Retorna:
+        - np.ndarray com a matriz densa
+      '''
+      maximum_idx = len(self.index_array)-1
+      total_of_values = len(self.values_array)
+
+      cols = max(list(self.columns_array))+1
+      rows = len(self.index_array)
+
+      dense_mtx = [[0]*cols for i in range(rows)]
+      for idx in range(rows):
+        line_start = self.index_array[idx]
+        line_end = self.index_array[idx+1] \
+          if idx < maximum_idx else total_of_values
+
+        for n in range(line_start, line_end):
+          an = self.values_array[n]
+          column = self.columns_array[n]
+          dense_mtx[idx][column] = an
+
+      return np.array(dense_mtx)
 
     def __mult_by_vector(self, other):
         '''
