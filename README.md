@@ -16,3 +16,7 @@ A seguir instale as dependências:
 ```pipenv install```
 
 Ao fim, você está livre para editar ou executar o projeto.
+
+### Executando testes
+Execute o comando a seguir para rodar os testes unitários:
+```pytest```

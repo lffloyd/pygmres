@@ -12,7 +12,7 @@ def read_system_of_lineq_from_file(filename):
         1 0 8
     E logo abaixo os elementos de B:
         1 8 7
-    
+
     Recebe:
         - filename: path do arquivo
     Retorna:
@@ -22,7 +22,7 @@ def read_system_of_lineq_from_file(filename):
     with open(filename, "r") as file:
         for line in file:
             elements.append(list(map(lambda x: float(x), line.split())))
-    
+
     A = np.array(elements[:-1])
     b = np.array(elements[-1])
     return A, b
