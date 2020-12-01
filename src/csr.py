@@ -119,7 +119,7 @@ class CSRMatrix():
         index_array = []
 
         for i in range(len(self.index_array)):
-            index_array.append(self.index_array[i])
+            index_array.append(len(values_array))
             if i == len(self.index_array)-1:
                 vector_init, vector_end = self.index_array[i], len(
                     self.values_array)
@@ -129,6 +129,7 @@ class CSRMatrix():
             A_columns = self.columns_array[vector_init:vector_end]
 
             B_columns = set(other.columns_array)
+            column = 0
             for j in range(len(B_columns)):
                 B_vector = []
                 B_rows = []
@@ -142,18 +143,25 @@ class CSRMatrix():
                         B_rows.append(row)
 
                 mult_sum = 0
-
+                
                 intersection = set(A_columns).intersection(set(B_rows))
-                for intersect in intersection:
+                for intersect in sorted(intersection):
                     index_a = list(A_columns).index(intersect)
                     index_b = list(B_rows).index(intersect)
-                    columns_array.append(intersect)
                     mult_sum += A_vector[index_a]*B_vector[index_b]
 
                 if mult_sum != 0:
                     values_array.append(mult_sum)
+                    columns_array.append(column)
+                column += 1
 
         return CSRMatrix(
             [values_array, columns_array, index_array],
             from_csr=True
         )
+
+a = CSRMatrix([[2,4,5],[6,2,0],[1,0,8]])
+b = CSRMatrix([[1,0,0],[0,1,0],[0,0,1]])
+print(a)
+print(a.mult(a))
+print(a.mult(b).to_dense())
