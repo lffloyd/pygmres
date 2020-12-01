@@ -159,9 +159,3 @@ class CSRMatrix():
             [values_array, columns_array, index_array],
             from_csr=True
         )
-
-a = CSRMatrix([[2,4,5],[6,2,0],[1,0,8]])
-b = CSRMatrix([[1,0,0],[0,1,0],[0,0,1]])
-print(a)
-print(a.mult(a))
-print(a.mult(b).to_dense())
