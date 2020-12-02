@@ -16,11 +16,11 @@ def gmres(A, b, max_iter=50, min_residual=1e-8):
     Q_values = []
     y = np.random.rand(1, len(b))
 
-    for n in range(max_iter):
+    for n in range(1, max_iter+1):
         Qn, hn = arnoldi_iteration(A_csr, b, n)
         Q_values.append(Qn)
 
-        y = minimize(Qn, hn, b)
+        y = minimize(hn, b, n)
 
         rn = calculate_residual(hn, b, y, n)
         if rn < min_residual:
@@ -32,6 +32,10 @@ def gmres(A, b, max_iter=50, min_residual=1e-8):
 def calculate_residual(hn, b, y, n):
     e1 = generate_e(n)
     b_norm = np.linalg.norm(b)
+    print(f'b_norm = {b_norm}')
+    print(f'e1 = {e1}')
+    print(f'y = {y}')
+    print(f'hn = {hn}')
     return np.linalg.norm(hn.dot(y) - (b_norm*e1)) / b_norm
 
 
