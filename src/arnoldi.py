@@ -1,6 +1,17 @@
 import numpy as np
 
+
 def arnoldi_iteration(A, b, n):
+    '''
+    Realiza a iteracao de Arnoldi para os dados matrix A e vetor b.
+
+    Recebe:
+        - A: instancia CSRMatrix
+        - b: instancia np.ndarray
+        - n: numero de iteracoes a serem realizadas
+    Retorna
+        - Q, h
+    '''
     dense_A = A.to_dense()
     m = len(dense_A)
     # m = A.shape[0]
