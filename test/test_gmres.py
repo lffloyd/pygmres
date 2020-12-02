@@ -12,7 +12,8 @@ def test_gmres():
     b = np.array([1, 8, 7])
 
     x_expected = scipy_gmres(A, b, atol="legacy")
-
-    x = gmres(A, b)
+    print(f'expected = {x_expected}')
+    x = gmres(A, b).to_dense()
+    print(f'actual = {x}')
 
     assert (x == x_expected).all()

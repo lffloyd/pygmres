@@ -1,7 +1,9 @@
 import numpy as np
 
 def arnoldi_iteration(A, b, n):
-    m = A.shape[0]
+    dense_A = A.to_dense()
+    m = len(dense_A)
+    # m = A.shape[0]
 
     h = np.zeros((n + 1, n), dtype=np.complex)
     Q = np.zeros((m, n + 1), dtype=np.complex)
@@ -10,7 +12,7 @@ def arnoldi_iteration(A, b, n):
     Q[:, 0] = q
 
     for k in range(n):
-        v = A.dot(q)
+        v = dense_A.dot(q)
         for j in range(k + 1):
             h[j, k] = np.dot(Q[:, j].conj(), v)
             v = v - h[j, k] * Q[:, j]
