@@ -12,10 +12,8 @@ def test_csr_mult():
     ]
     npmatrix = np.array(matrix)
     expected = np.matmul(npmatrix, npmatrix)
-    print(f'expected={expected}')
     csr_matrix = CSRMatrix(matrix)
     result = csr_matrix.mult(csr_matrix).to_dense()
-    print(f'result={result}')
 
     assert (result == expected).all()
 
