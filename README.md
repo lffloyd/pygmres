@@ -20,3 +20,7 @@ Ao fim, você está livre para editar ou executar o projeto.
 ### Executando testes
 Execute o comando a seguir para rodar os testes unitários:
 ```pytest```
+
+### Links adicionais
+
+* [Especificação do algoritmo GMRES](http://www.acme.byu.edu/wp-content/uploads/2014/09/Krylov2.pdf)
