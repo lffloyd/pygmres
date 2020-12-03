@@ -1,7 +1,6 @@
 import argparse
 from src.files import read_system_of_lineq_from_file
 from src.gmres import gmres
-from src.arnoldi import arnoldi_iteration
 
 parser = argparse.ArgumentParser(
     description="PyGMRES - Implementacao de GMRES em Python")
@@ -21,8 +20,6 @@ A, b = read_system_of_lineq_from_file(args.lsyst)
 if debug_activated:
     print(f'A={A}')
     print(f'b={b}')
-
-arnoldi_iteration(A, b, 5)
 
 x = gmres(A, b, args.niter, args.resid)
 print(f'x={x}')

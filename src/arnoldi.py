@@ -16,8 +16,8 @@ def arnoldi_iteration(A, b, n):
     m = len(dense_A)
     # m = A.shape[0]
 
-    h = np.zeros((n + 1, n), dtype=np.complex)
-    Q = np.zeros((m, n + 1), dtype=np.complex)
+    h = np.zeros((n + 1, n), dtype=np.float64)
+    Q = np.zeros((m, n + 1), dtype=np.float64)
 
     q = b / np.linalg.norm(b)
     Q[:, 0] = q

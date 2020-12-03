@@ -11,9 +11,9 @@ def test_gmres():
     ])
     b = np.array([1, 8, 7])
 
-    x_expected = scipy_gmres(A, b, atol="legacy")
-    print(f'expected = {x_expected}')
-    x = gmres(A, b).to_dense()
-    print(f'actual = {x}')
+    x_expected, _ = scipy_gmres(A, b, atol="legacy")
+    print(f'expected = {x_expected}, dtype = {x_expected.dtype}')
+    x = gmres(A, b)
+    print(f'actual = {x}, dtype = {x.dtype}')
 
-    assert (x == x_expected).all()
+    np.testing.assert_array_almost_equal(x, x_expected)

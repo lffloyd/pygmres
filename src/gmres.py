@@ -32,10 +32,6 @@ def gmres(A, b, max_iter=50, min_residual=1e-8):
 def calculate_residual(hn, b, y, n):
     e1 = generate_e(n)
     b_norm = np.linalg.norm(b)
-    print(f'b_norm = {b_norm}')
-    print(f'e1 = {e1}')
-    print(f'y = {y}')
-    print(f'hn = {hn}')
     return np.linalg.norm(hn.dot(y) - (b_norm*e1)) / b_norm
 
 
@@ -44,4 +40,6 @@ def minimize(hn, b, n):
     b_norm = np.linalg.norm(b)
     negated_b_norm = np.negative(b_norm)
     negated_hn = np.negative(hn)
-    return lstsq(negated_hn, negated_b_norm * e1)
+    negated_b_times_e1 = negated_b_norm * e1
+    x, residuals, _, _ = lstsq(negated_hn, negated_b_times_e1, rcond=-1)
+    return x
