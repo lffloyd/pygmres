@@ -12,9 +12,7 @@ def arnoldi_iteration(A, b, n):
     Retorna
         - Q, h
     '''
-    dense_A = A.to_dense()
-    m = len(dense_A)
-    # m = A.shape[0]
+    m = A.qtd_linhas()
 
     h = np.zeros((n + 1, n), dtype=np.float64)
     Q = np.zeros((m, n + 1), dtype=np.float64)
@@ -23,7 +21,7 @@ def arnoldi_iteration(A, b, n):
     Q[:, 0] = q
 
     for k in range(n):
-        v = dense_A.dot(q)
+        v = A.mult(q)
         for j in range(k + 1):
             h[j, k] = np.dot(Q[:, j].conj(), v)
             v = v - h[j, k] * Q[:, j]

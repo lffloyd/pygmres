@@ -46,6 +46,9 @@ class CSRMatrix():
         self.values_array = np.array(self.values_array)
         self.columns_array = np.array(self.columns_array)
         self.index_array = np.array(self.index_array)
+
+    def qtd_linhas(self):
+      return len(self.index_array)
     
     def to_dense(self):
       '''
