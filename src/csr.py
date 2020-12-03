@@ -6,6 +6,27 @@ class CSRMatrix():
     Armazena a representacao CSR de uma matriz
     '''
 
+    def __getitem__(self, index):
+      row = self.index_array[index[0]]
+      next_row = row
+      if index[0] < len(self.index_array)-1:
+        next_row = self.index_array[index[0]+1]
+        columns = self.columns_array[row:next_row]
+      else: 
+        columns = self.columns_array[row:]
+      print(columns)
+      if index[1] in list(columns):
+        return self.values_array[row+list(columns).index(index[1])]
+      else:
+        return 0
+
+      
+    def __setitem__(self,pos,value):
+      row, column = pos[0],pos[1]
+      
+      if(self[row,column] != 0):
+        print("oie")
+    
     def __init__(self, matrix, from_csr=False):
         '''
         Recebe uma matriz completa e transforma ela no formato CSR, 
