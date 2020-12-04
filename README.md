@@ -17,6 +17,23 @@ A seguir instale as dependências:
 
 Ao fim, você está livre para editar ou executar o projeto.
 
-### Executando testes
+### Executando o projeto
+Após a instalação e a configuração do projeto realizadas acima, você poderá executar o projeto usando o comando:
+```python main.py --lsyst <nome do arquivo> --resid <residual minimo> --niter <num iteracoes> --debug <debug ativado>```, onde os argumentos são:
+
+* ```<nome do arquivo>``` - obrigatório. Nome do arquivo representando o sistema linear a ser trabalhado. O arquivo deve possuir o sistema no formato a seguir. As 3 primeiras linhas são os elementos da matriz A e a última linha do arquivo sempre representará o vetor b.
+
+```
+2 4 5
+6 2 9
+1 0 8
+1 8 7
+```
+
+* ```<residual minimo>``` - opcional. Valor de residual mínimo suficiente para considerar a solução encontrada como boa. Caso não seja passado, o valor padrão de 1e-8 será usado.
+* ```<num iteracoes>``` - opcional. Número máximo de iterações do algoritmo GMRES. Caso não seja passado, o valor padrão de 50 será usado.
+* ```<debug ativado>``` - opcional. Número (1 ou 0) indicando se deseja ver as saídas de debug ou não ao executar o algoritmo. Caso não seja passado, por padrão o debug está ativado.
+
+### Executando testes unitários
 Execute o comando a seguir para rodar os testes unitários:
 ```pytest```
