@@ -112,7 +112,13 @@ class CSRMatrix():
         self.columns_array = np.array(self.columns_array)
         self.index_array = np.array(self.index_array)
 
-    def qtd_linhas(self):
+    def no_of_lines(self):
+        '''
+        Retorna a quantidade de linhas nesta matriz CSR.
+
+        Retorna:
+          - int representando num. de linhas
+        '''
         return len(self.index_array)
 
     def to_dense(self):
@@ -227,18 +233,17 @@ class CSRMatrix():
             [values_array, columns_array, index_array],
             from_csr=True
         )
-    
-    def negative(self):
-      negated_values = list(map(lambda x: -x, self.values_array))
 
-      return CSRMatrix(
+    def negative(self):
+        '''
+        Nega a matrix CSR atual, executando A*b, onde b=-1.
+
+        Retorna:
+          - matrix CSR com valores negados
+        '''
+        negated_values = list(map(lambda x: -x, self.values_array))
+
+        return CSRMatrix(
             [negated_values, self.columns_array, self.index_array],
             from_csr=True
         )
-
-
-A = CSRMatrix([[1, 2], [3, 0]])
-print(A[0, 0], A[0, 1], A[1, 0], A[1, 1])
-print(A)
-A[1, 1] = 20
-print(A)

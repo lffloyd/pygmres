@@ -7,13 +7,13 @@ def arnoldi_iteration(A, b, n):
     Realiza a iteracao de Arnoldi para os dados matrix A e vetor b.
 
     Recebe:
-        - A: instancia CSRMatrix
+        - A: instancia de matriz CSR (CSRMatrix)
         - b: instancia np.ndarray
         - n: numero de iteracoes a serem realizadas
     Retorna
-        - Q, h
+        - Q, h, duas matrizes em formato CSRMatrix
     '''
-    m = A.qtd_linhas()
+    m = A.no_of_lines()
 
     h = np.zeros((n + 1, n), dtype=np.float64)
     Q = np.zeros((m, n + 1), dtype=np.float64)
