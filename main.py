@@ -22,4 +22,5 @@ if debug_activated:
     print(f'b={b}')
 
 x = gmres(A, b, args.niter, args.resid)
-print(f'x={x}')
+if debug_activated:
+    print(f'x={x}')
