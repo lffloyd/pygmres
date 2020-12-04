@@ -5,7 +5,7 @@ from src.gmres import gmres
 
 def test_gmres():
     A = np.array([
-        [2, 4, 5],
+        [2, 4, 0],
         [6, 2, 9],
         [1, 0, 8],
     ])

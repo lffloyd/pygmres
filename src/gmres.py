@@ -24,22 +24,22 @@ def gmres(A, b, max_iter=50, min_residual=1e-8):
 
         rn = calculate_residual(hn, b, y, n)
         if rn < min_residual:
-            return CSRMatrix(Qn).mult(y)
+            return Qn.mult(y)
 
-    return CSRMatrix(Q_values[:-1]).mult(y)
+    return Q_values[:-1].mult(y)
 
 
 def calculate_residual(hn, b, y, n):
     e1 = generate_e(n)
     b_norm = np.linalg.norm(b)
-    return np.linalg.norm(hn.dot(y) - (b_norm*e1)) / b_norm
+    return np.linalg.norm(hn.mult(y) - (b_norm*e1)) / b_norm
 
 
 def minimize(hn, b, n):
     e1 = generate_e(n)
     b_norm = np.linalg.norm(b)
     negated_b_norm = np.negative(b_norm)
-    negated_hn = np.negative(hn)
+    negated_hn = hn.negative()
     negated_b_times_e1 = negated_b_norm * e1
-    x, residuals, _, _ = lstsq(negated_hn, negated_b_times_e1, rcond=-1)
+    x, residuals, _, _ = lstsq(negated_hn.to_dense(), negated_b_times_e1, rcond=-1)
     return x

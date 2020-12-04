@@ -1,78 +1,11 @@
 import numpy as np
 import bisect as bt
 
+
 class CSRMatrix():
     '''
     Armazena a representacao CSR de uma matriz
     '''
-
-    def __getitem__(self, index):
-      row = self.index_array[index[0]]
-      next_row = row
-      if index[0] < len(self.index_array)-1:
-        next_row = self.index_array[index[0]+1]
-        columns = self.columns_array[row:next_row]
-      else: 
-        columns = self.columns_array[row:]
-
-      if index[1] in list(columns):
-        return self.values_array[row+list(columns).index(index[1])]
-      else:
-        return 0
-
-      
-    def __setitem__(self,pos,value):
-      row, column = pos[0],pos[1]
-      if self[row,column] != 0:
-        self.values_array[self.__get_value_pos(pos)] = value
-      else:
-        row = self.index_array[pos[0]]
-        next_row = row
-        if pos[0] < len(self.index_array)-1:
-          next_row = self.index_array[pos[0]+1]
-          next_row_pos = pos[0]+1
-          columns = list(self.columns_array)[row:next_row]
-          bt.insort(columns,column)
-          current_pos = columns.index(column)
-          columns = list(self.columns_array)
-          columns.insert(row+current_pos, column)
-          self.columns_array = np.array(columns)
-          pos = row
-          while self.columns_array[pos] != column:
-            pos += 1
-          values_array = list(self.values_array)
-          index_array = list(self.index_array)
-          values_array.insert(pos,value)
-          index_array[next_row_pos] +=1
-          self.index_array = np.array(index_array)
-          self.values_array = np.array(values_array)
-        else: 
-          columns = list(self.columns_array)[row:]
-          bt.insort(columns,column)
-          current_pos = columns.index(column)
-          columns = list(self.columns_array)
-          columns.insert(row+current_pos, column)
-          self.columns_array = np.array(columns)
-          pos = row
-          while self.columns_array[pos] != column:
-            pos += 1
-          values_array = list(self.values_array)
-          # index_array = list(self.index_array)
-          values_array.insert(pos,value)
-          # index_array[next_row_pos] +=1
-          # self.index_array = np.array(index_array)
-          self.values_array = np.array(values_array)
-      
-    def __get_value_pos(self,index):
-      row = self.index_array[index[0]]
-      next_row = row
-      if index[0] < len(self.index_array)-1:
-        next_row = self.index_array[index[0]+1]
-        columns = self.columns_array[row:next_row]
-      else: 
-        columns = self.columns_array[row:]
-      if index[1] in list(columns):
-        return row+list(columns).index(index[1])
 
     def __init__(self, matrix, from_csr=False):
         '''
@@ -86,6 +19,70 @@ class CSRMatrix():
         self.values_array = np.array(matrix[0])
         self.columns_array = np.array(matrix[1])
         self.index_array = np.array(matrix[2])
+
+    def __getitem__(self, index):
+        row = self.index_array[index[0]]
+        next_row = row
+        if index[0] < len(self.index_array)-1:
+            next_row = self.index_array[index[0]+1]
+            columns = self.columns_array[row:next_row]
+        else:
+            columns = self.columns_array[row:]
+
+        if index[1] in list(columns):
+            return self.values_array[row+list(columns).index(index[1])]
+        else:
+            return 0
+
+    def __setitem__(self, pos, value):
+        row, column = pos[0], pos[1]
+        if self[row, column] != 0:
+            self.values_array[self.__get_value_pos(pos)] = value
+        else:
+            row = self.index_array[pos[0]]
+            next_row = row
+            if pos[0] < len(self.index_array)-1:
+                next_row = self.index_array[pos[0]+1]
+                next_row_pos = pos[0]+1
+                columns = list(self.columns_array)[row:next_row]
+                bt.insort(columns, column)
+                current_pos = columns.index(column)
+                columns = list(self.columns_array)
+                columns.insert(row+current_pos, column)
+                self.columns_array = np.array(columns)
+                pos = row
+                while self.columns_array[pos] != column:
+                    pos += 1
+                values_array = list(self.values_array)
+                index_array = list(self.index_array)
+                values_array.insert(pos, value)
+                index_array[next_row_pos] += 1
+                self.index_array = np.array(index_array)
+                self.values_array = np.array(values_array)
+            else:
+                columns = list(self.columns_array)[row:]
+                bt.insort(columns, column)
+                current_pos = columns.index(column)
+                columns = list(self.columns_array)
+                columns.insert(row+current_pos, column)
+                self.columns_array = np.array(columns)
+                pos = row
+                while self.columns_array[pos] != column:
+                    pos += 1
+                values_array = list(self.values_array)
+                values_array.insert(pos, value)
+                self.values_array = np.array(values_array)
+
+    def __get_value_pos(self, index):
+        row = self.index_array[index[0]]
+        next_row = row
+        if index[0] < len(self.index_array)-1:
+            next_row = self.index_array[index[0]+1]
+            columns = self.columns_array[row:next_row]
+        else:
+            columns = self.columns_array[row:]
+        if index[1] in list(columns):
+            return row+list(columns).index(index[1])
 
     def __str__(self):
         return f'\nValues: {self.values_array}\nColumns: {self.columns_array}\nIndexes: {self.index_array}\n'
@@ -103,46 +100,46 @@ class CSRMatrix():
 
         idx = 0
         for i in range(len(matrix)):
-          self.index_array.append(idx)
-          idx += np.count_nonzero(matrix[i])
+            self.index_array.append(idx)
+            idx += np.count_nonzero(matrix[i])
 
-          for j in range(len(matrix[i])):
+            for j in range(len(matrix[i])):
                 if matrix[i][j] != 0:
                     self.values_array.append(matrix[i][j])
                     self.columns_array.append(j)
-            
+
         self.values_array = np.array(self.values_array)
         self.columns_array = np.array(self.columns_array)
         self.index_array = np.array(self.index_array)
 
     def qtd_linhas(self):
-      return len(self.index_array)
-    
+        return len(self.index_array)
+
     def to_dense(self):
-      '''
-      Retorna uma representacao densa (completa) da matriz CSR.
+        '''
+        Retorna uma representacao densa (completa) da matriz CSR.
 
-      Retorna:
-        - np.ndarray com a matriz densa
-      '''
-      maximum_idx = len(self.index_array)-1
-      total_of_values = len(self.values_array)
+        Retorna:
+          - np.ndarray com a matriz densa
+        '''
+        maximum_idx = len(self.index_array)-1
+        total_of_values = len(self.values_array)
 
-      cols = max(list(self.columns_array))+1
-      rows = len(self.index_array)
+        cols = max(list(self.columns_array))+1
+        rows = len(self.index_array)
 
-      dense_mtx = [[0]*cols for i in range(rows)]
-      for idx in range(rows):
-        line_start = self.index_array[idx]
-        line_end = self.index_array[idx+1] \
-          if idx < maximum_idx else total_of_values
+        dense_mtx = [[0]*cols for i in range(rows)]
+        for idx in range(rows):
+            line_start = self.index_array[idx]
+            line_end = self.index_array[idx+1] \
+                if idx < maximum_idx else total_of_values
 
-        for n in range(line_start, line_end):
-          an = self.values_array[n]
-          column = self.columns_array[n]
-          dense_mtx[idx][column] = an
+            for n in range(line_start, line_end):
+                an = self.values_array[n]
+                column = self.columns_array[n]
+                dense_mtx[idx][column] = an
 
-      return np.array(dense_mtx)
+        return np.array(dense_mtx)
 
     def __mult_by_vector(self, other):
         '''
@@ -158,18 +155,18 @@ class CSRMatrix():
 
         result = []
         for idx in range(len(self.index_array)):
-          line_start = self.index_array[idx]
-          line_end = self.index_array[idx+1] \
-            if idx < maximum_idx else total_of_values
+            line_start = self.index_array[idx]
+            line_end = self.index_array[idx+1] \
+                if idx < maximum_idx else total_of_values
 
-          acc = 0
-          t = 0
-          for n in range(line_start, line_end):
-            an = self.values_array[n]
-            column = self.columns_array[n]
-            acc += an*other[column]
-      
-          result.append(acc)
+            acc = 0
+            t = 0
+            for n in range(line_start, line_end):
+                an = self.values_array[n]
+                column = self.columns_array[n]
+                acc += an*other[column]
+
+            result.append(acc)
 
         return np.array(result)
 
@@ -183,7 +180,7 @@ class CSRMatrix():
           - instancia CSRMatrix ou np.ndarray com o resultado da multiplicacao
         '''
         if isinstance(other, np.ndarray):
-          return self.__mult_by_vector(other)
+            return self.__mult_by_vector(other)
 
         values_array = []
         columns_array = []
@@ -214,7 +211,7 @@ class CSRMatrix():
                         B_rows.append(row)
 
                 mult_sum = 0
-                
+
                 intersection = set(A_columns).intersection(set(B_rows))
                 for intersect in sorted(intersection):
                     index_a = list(A_columns).index(intersect)
@@ -230,8 +227,18 @@ class CSRMatrix():
             [values_array, columns_array, index_array],
             from_csr=True
         )
-A = CSRMatrix([[1,2],[3,0]])
-print(A[0,0],A[0,1],A[1,0],A[1,1])
+    
+    def negative(self):
+      negated_values = list(map(lambda x: -x, self.values_array))
+
+      return CSRMatrix(
+            [negated_values, self.columns_array, self.index_array],
+            from_csr=True
+        )
+
+
+A = CSRMatrix([[1, 2], [3, 0]])
+print(A[0, 0], A[0, 1], A[1, 0], A[1, 1])
 print(A)
-A[1,1] = 20
+A[1, 1] = 20
 print(A)

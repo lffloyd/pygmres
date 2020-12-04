@@ -1,4 +1,5 @@
 import numpy as np
+from src.csr import CSRMatrix
 
 
 def arnoldi_iteration(A, b, n):
@@ -32,5 +33,5 @@ def arnoldi_iteration(A, b, n):
             q = v / h[k + 1, k]
             Q[:, k + 1] = q
         else:
-            return Q, h
-    return Q, h
+            return CSRMatrix(Q), CSRMatrix(h)
+    return CSRMatrix(Q), CSRMatrix(h)
