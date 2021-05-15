@@ -1,5 +1,5 @@
 # pygmres
-Trabalho da disciplina de Programação Científica da UFF, período 2020.1.
+Trabalho da disciplina de Programação Científica da UFF, período 2020.1. Obtém a solução de um dado sistema linear de equações por meio do método [GMRES](https://en.wikipedia.org/wiki/Generalized_minimal_residual_method).
 
 ### Instalação
 Você deve possuir em seu ambiente:
